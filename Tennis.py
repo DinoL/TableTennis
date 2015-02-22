@@ -1,11 +1,11 @@
 import queue
 import random
 
-def getNextPlayer(curPlayer):
-    return curPlayer + 1
+def getFirstVictoryProbability(skill1, skill2):
+    return skill1 / (skill1 + skill2)
 
 def getWinner(player1, player2):
-    border = player1.skill / (player1.skill + player2.skill)
+    border = getFirstVictoryProbability(player1.skill,player2.skill)
     return player1 if random.random() < border else player2
 
 class Player:
@@ -44,7 +44,7 @@ def trivialTests():
         if getWinner(Leonid, Yaroslav) == Leonid:
             wonByMe += 1
     print("Percentage of won by Leonid: ", wonByMe/totalGames)
-    print("Expected: ", Leonid.skill/(Leonid.skill + Yaroslav.skill))
+    print("Expected: ", getFirstVictoryProbability(Leonid.skill, Yaroslav.skill))
 
     queue = PlayersQueue()
     queue.addPlayer(Leonid)
