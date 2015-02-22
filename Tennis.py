@@ -28,21 +28,31 @@ class Match:
     """A class representing the game being played"""
     def __init__(self, player1, player2):
         self.winner = getWinner(player1, player2)
+        self.loser = player1 if self.winner == player2 else player2
+    def getWinner(self):
+        return self.winner
+    def getLoser(self):
+        return self.loser
 
-Leonid = Player("Leonid")
-Yaroslav = Player("Yaroslav")
-print("Leonid's skill: ", Leonid.skill, "\nYaroslav's skill: ",Yaroslav.skill)
-wonByMe = 0
-totalGames = 10000
-for i in range(totalGames):
-    if getWinner(Leonid, Yaroslav) == Leonid:
-        wonByMe += 1
-print("\nPercentage of won by Leonid: ", wonByMe/totalGames)
-print("\nExpected: ", Leonid.skill/(Leonid.skill + Yaroslav.skill))
+def trivialTests():
+    Leonid = Player("Leonid")
+    Yaroslav = Player("Yaroslav")
+    print("Leonid's skill: ", Leonid.skill, "\nYaroslav's skill: ",Yaroslav.skill)
+    wonByMe = 0
+    totalGames = 10000
+    for i in range(totalGames):
+        if getWinner(Leonid, Yaroslav) == Leonid:
+            wonByMe += 1
+    print("Percentage of won by Leonid: ", wonByMe/totalGames)
+    print("Expected: ", Leonid.skill/(Leonid.skill + Yaroslav.skill))
 
-queue = PlayersQueue()
-queue.addPlayer(Leonid)
-queue.addPlayer(Yaroslav)
-print(queue.getNextPlayer().name)
-print(queue.getNextPlayer().name)
+    queue = PlayersQueue()
+    queue.addPlayer(Leonid)
+    queue.addPlayer(Yaroslav)
+    print("First: ", queue.getNextPlayer().name)
+    print("Second: ", queue.getNextPlayer().name)
 
+    game = Match(Leonid, Yaroslav)
+    print("Winner: ", game.getWinner().name, ", Loser: ", game.getLoser().name)
+
+trivialTests()
