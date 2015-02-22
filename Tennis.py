@@ -34,10 +34,18 @@ class Match:
     def getLoser(self):
         return self.loser
 
+def printSkills(players):
+    for player in players:
+        print(player.name + "'s skill: ", player.skill)
+
 def trivialTests():
     Leonid = Player("Leonid")
     Yaroslav = Player("Yaroslav")
-    print("Leonid's skill: ", Leonid.skill, "\nYaroslav's skill: ",Yaroslav.skill)
+    Pavel = Player("Pavel")
+    Anna = Player("Anna")
+
+    printSkills([Leonid, Yaroslav, Pavel, Anna])
+
     wonByMe = 0
     totalGames = 10000
     for i in range(totalGames):
@@ -49,10 +57,19 @@ def trivialTests():
     queue = PlayersQueue()
     queue.addPlayer(Leonid)
     queue.addPlayer(Yaroslav)
-    print("First: ", queue.getNextPlayer().name)
-    print("Second: ", queue.getNextPlayer().name)
+    queue.addPlayer(Pavel)
+    # print("First: ", queue.getNextPlayer().name)
+    # print("Second: ", queue.getNextPlayer().name)
 
-    game = Match(Leonid, Yaroslav)
-    print("Winner: ", game.getWinner().name, ", Loser: ", game.getLoser().name)
+    # game = Match(Leonid, Yaroslav)
+    # print("Winner: ", game.getWinner().name, ", Loser: ", game.getLoser().name)
+
+    previousWinner = Anna
+    for i in range(10):
+        newPlayer = queue.getNextPlayer()
+        print("Now playing: ", previousWinner.name, newPlayer.name)
+        match = Match(previousWinner, newPlayer)
+        previousWinner = match.getWinner()
+        queue.addPlayer(match.getLoser())
 
 trivialTests()
