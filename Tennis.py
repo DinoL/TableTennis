@@ -14,6 +14,7 @@ class Player:
         self.skill = random.random()
         self.name = name
         self.games = 0
+        self.streak = 0
 
 class PlayersQueue:
     """A class representing waiting players"""
@@ -28,7 +29,9 @@ class Match:
     """A class representing the game being played"""
     def __init__(self, player1, player2):
         self.winner = getWinner(player1, player2)
+        self.winner.streak += 1
         self.loser = player1 if self.winner == player2 else player2
+        self.loser.streak = 0
     def getWinner(self):
         return self.winner
     def getLoser(self):
@@ -64,12 +67,19 @@ def trivialTests():
     # game = Match(Leonid, Yaroslav)
     # print("Winner: ", game.getWinner().name, ", Loser: ", game.getLoser().name)
 
+    maxStreak = 2
     previousWinner = Anna
     for i in range(10):
         newPlayer = queue.getNextPlayer()
         print("Now playing: ", previousWinner.name, newPlayer.name)
         match = Match(previousWinner, newPlayer)
         previousWinner = match.getWinner()
-        queue.addPlayer(match.getLoser())
+        loser = match.getLoser()
+        loser.streak = 0
+        queue.addPlayer(loser)
+        if previousWinner.streak >= maxStreak:
+            previousWinner.streak = 0
+            queue.addPlayer(previousWinner)
+            previousWinner = queue.getNextPlayer()
 
 trivialTests()
