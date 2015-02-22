@@ -1,5 +1,5 @@
+import queue
 import random
-import unittest
 
 def getNextPlayer(curPlayer):
     return curPlayer + 1
@@ -15,12 +15,14 @@ class Player:
         self.name = name
         self.games = 0
 
-class Queue:
+class PlayersQueue:
     """A class representing waiting players"""
     def __init__(self):
-        self.queue = Queue()
+        self.queue = queue.Queue()
     def addPlayer(self, player):
         self.queue.put(player)
+    def getNextPlayer(self):
+        return self.queue.get()
 
 class Match:
     """A class representing the game being played"""
@@ -37,3 +39,10 @@ for i in range(totalGames):
         wonByMe += 1
 print("\nPercentage of won by Leonid: ", wonByMe/totalGames)
 print("\nExpected: ", Leonid.skill/(Leonid.skill + Yaroslav.skill))
+
+queue = PlayersQueue()
+queue.addPlayer(Leonid)
+queue.addPlayer(Yaroslav)
+print(queue.getNextPlayer().name)
+print(queue.getNextPlayer().name)
+
