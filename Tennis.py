@@ -50,30 +50,38 @@ def printSkills(players):
 def trivialTests():
     Leonid = Player("Leonid")
     Yaroslav = Player("Yaroslav")
-    Pavel = Player("Pavel")
-    Anna = Player("Anna")
+    PavelR = Player("PavelR")
+    AnnaO = Player("AnnaO")
+    Sergey = Player("Sergey")
+    Alexey = Player("Alexei")
+    AnnaE = Player("AnnaE")
+    PavelS = Player("PavelS")
+    Roman = Player("Roman")
+    Anatoly = Player("Anatoly")
 
-    printSkills([Leonid, Yaroslav, Pavel, Anna])
 
-    wonByMe = 0
-    totalGames = 10000
-    for i in range(totalGames):
-        if getWinner(Leonid, Yaroslav) == Leonid:
-            wonByMe += 1
-    print("Percentage of won by Leonid: ", wonByMe/totalGames)
-    print("Expected: ", getFirstVictoryProbability(Leonid.skill, Yaroslav.skill))
+    allPlayers = [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly]
+
+    printSkills(allPlayers)
+
+    # wonByMe = 0
+    # totalGames = 10000
+    # for i in range(totalGames):
+    #     if getWinner(Leonid, Yaroslav) == Leonid:
+    #         wonByMe += 1
+    # print("Percentage of won by Leonid: ", wonByMe/totalGames)
+    # print("Expected: ", getFirstVictoryProbability(Leonid.skill, Yaroslav.skill))
 
     queue = PlayersQueue()
-    queue.addPlayer(Leonid)
-    queue.addPlayer(Yaroslav)
-    queue.addPlayer(Pavel)
+    for player in allPlayers:
+        queue.addPlayer(player)
 
     maxStreak = 2
-    previousWinner = Anna
-    gamesCount = 20
+    previousWinner = queue.getNextPlayer()
+    gamesCount = 100
     for i in range(gamesCount):
         newPlayer = queue.getNextPlayer()
-        print("Now playing: ", previousWinner.name, newPlayer.name)
+        #print("Now playing: ", previousWinner.name, newPlayer.name)
         match = Match(previousWinner, newPlayer)
         previousWinner = match.getWinner()
         loser = match.getLoser()
@@ -84,12 +92,17 @@ def trivialTests():
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
 
-    print("Leonid total games: ", Leonid.gamesCount)
-    for name, count in Leonid.games.items():
-        print(name, " : ", count)
+    # print("Leonid total games: ", Leonid.gamesCount)
+    # for name, count in Leonid.games.items():
+    #     print(name, " : ", count)
+    #
+    # print("Yaroslav total games: ", Yaroslav.gamesCount)
+    # for name, count in Yaroslav.games.items():
+    #     print(name, " : ", count)
 
-    print("Yaroslav total games: ", Yaroslav.gamesCount)
-    for name, count in Yaroslav.games.items():
-        print(name, " : ", count)
+    for player in allPlayers:
+        for competitor in allPlayers:
+            print(player.games[competitor.name], end="\t")
+        print("\n")
 
 trivialTests()
