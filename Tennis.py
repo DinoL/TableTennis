@@ -16,6 +16,7 @@ class Player:
         self.name = name
         self.gamesCount = 0
         self.streak = 0
+        self.victories = 0
         self.games = collections.defaultdict(int)
 
 class PlayersQueue:
@@ -34,6 +35,7 @@ class Match:
         self.winner.streak += 1
         self.loser = player1 if self.winner == player2 else player2
         self.loser.streak = 0
+        self.winner.victories += 1
         self.winner.gamesCount += 1
         self.loser.gamesCount += 1
         self.winner.games[self.loser.name] += 1
@@ -59,18 +61,8 @@ def trivialTests():
     Roman = Player("Roman")
     Anatoly = Player("Anatoly")
 
-
     allPlayers = [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly]
-
     printSkills(allPlayers)
-
-    # wonByMe = 0
-    # totalGames = 10000
-    # for i in range(totalGames):
-    #     if getWinner(Leonid, Yaroslav) == Leonid:
-    #         wonByMe += 1
-    # print("Percentage of won by Leonid: ", wonByMe/totalGames)
-    # print("Expected: ", getFirstVictoryProbability(Leonid.skill, Yaroslav.skill))
 
     queue = PlayersQueue()
     for player in allPlayers:
@@ -92,17 +84,13 @@ def trivialTests():
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
 
-    # print("Leonid total games: ", Leonid.gamesCount)
-    # for name, count in Leonid.games.items():
-    #     print(name, " : ", count)
-    #
-    # print("Yaroslav total games: ", Yaroslav.gamesCount)
-    # for name, count in Yaroslav.games.items():
-    #     print(name, " : ", count)
-
     for player in allPlayers:
         for competitor in allPlayers:
             print(player.games[competitor.name], end="\t")
-        print("\n")
+        print()
+
+    print("Name\tSkill\tGames\tWon")
+    for player in allPlayers:
+        print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
 
 trivialTests()
