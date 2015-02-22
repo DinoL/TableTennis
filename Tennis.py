@@ -1,4 +1,5 @@
 import random
+import unittest
 
 def getNextPlayer(curPlayer):
     return curPlayer + 1
@@ -26,5 +27,13 @@ class Match:
     def __init__(self, player1, player2):
         self.winner = getWinner(player1, player2)
 
-
-
+Leonid = Player("Leonid")
+Yaroslav = Player("Yaroslav")
+print("Leonid's skill: ", Leonid.skill, "\nYaroslav's skill: ",Yaroslav.skill)
+wonByMe = 0
+totalGames = 10000
+for i in range(totalGames):
+    if getWinner(Leonid, Yaroslav) == Leonid:
+        wonByMe += 1
+print("\nPercentage of won by Leonid: ", wonByMe/totalGames)
+print("\nExpected: ", Leonid.skill/(Leonid.skill + Yaroslav.skill))
