@@ -1,5 +1,6 @@
 import queue
 import random
+import collections
 
 def getFirstVictoryProbability(skill1, skill2):
     return skill1 / (skill1 + skill2)
@@ -13,8 +14,9 @@ class Player:
     def __init__(self, name):
         self.skill = random.random()
         self.name = name
-        self.games = 0
+        self.gamesCount = 0
         self.streak = 0
+        self.games = collections.defaultdict(int)
 
 class PlayersQueue:
     """A class representing waiting players"""
@@ -32,6 +34,10 @@ class Match:
         self.winner.streak += 1
         self.loser = player1 if self.winner == player2 else player2
         self.loser.streak = 0
+        self.winner.gamesCount += 1
+        self.loser.gamesCount += 1
+        self.winner.games[self.loser.name] += 1
+        self.loser.games[self.winner.name] += 1
     def getWinner(self):
         return self.winner
     def getLoser(self):
@@ -61,15 +67,11 @@ def trivialTests():
     queue.addPlayer(Leonid)
     queue.addPlayer(Yaroslav)
     queue.addPlayer(Pavel)
-    # print("First: ", queue.getNextPlayer().name)
-    # print("Second: ", queue.getNextPlayer().name)
-
-    # game = Match(Leonid, Yaroslav)
-    # print("Winner: ", game.getWinner().name, ", Loser: ", game.getLoser().name)
 
     maxStreak = 2
     previousWinner = Anna
-    for i in range(10):
+    gamesCount = 20
+    for i in range(gamesCount):
         newPlayer = queue.getNextPlayer()
         print("Now playing: ", previousWinner.name, newPlayer.name)
         match = Match(previousWinner, newPlayer)
@@ -81,5 +83,13 @@ def trivialTests():
             previousWinner.streak = 0
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
+
+    print("Leonid total games: ", Leonid.gamesCount)
+    for name, count in Leonid.games.items():
+        print(name, " : ", count)
+
+    print("Yaroslav total games: ", Yaroslav.gamesCount)
+    for name, count in Yaroslav.games.items():
+        print(name, " : ", count)
 
 trivialTests()
