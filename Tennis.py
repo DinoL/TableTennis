@@ -89,6 +89,13 @@ def trivialTests():
             print(player.games[competitor.name], end="\t")
         print()
 
+    lists = []
+    for player in allPlayers:
+        lists += [sorted(player.games.values(), reverse = True)]
+
+    hist = [sum(e)/len(allPlayers) for e in zip(*lists)]
+    print("Average sorted games count:", *hist, sep="\t")
+
     print("Name\tSkill\tGames\tWon")
     for player in allPlayers:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
