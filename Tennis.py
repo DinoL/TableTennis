@@ -1,6 +1,7 @@
 import queue
 import random
 import collections
+import matplotlib.pyplot as plot
 
 def getFirstVictoryProbability(skill1, skill2):
     return skill1 / (skill1 + skill2)
@@ -46,10 +47,15 @@ class Match:
         return self.loser
 
 def printSkills(players):
+    """
+    :param players: list of the players
+    Prints skills of the players in a column
+    """
     for player in players:
         print(player.name + "'s skill: ", player.skill)
 
 def trivialTests():
+    """ All the tests and statistics for the classes above """
     Leonid = Player("Leonid")
     Yaroslav = Player("Yaroslav")
     PavelR = Player("PavelR")
@@ -95,6 +101,12 @@ def trivialTests():
 
     hist = [sum(e)/len(allPlayers) for e in zip(*lists)]
     print("Average sorted games count:", *hist, sep="\t")
+
+    plot.plot(hist)
+    plot.title("Games count plot")
+    plot.ylabel("Average games count")
+    plot.xlabel("Competitor (in order of games count decreasing)")
+    plot.show()
 
     print("Name\tSkill\tGames\tWon")
     for player in allPlayers:
