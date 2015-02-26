@@ -47,14 +47,6 @@ class Match:
     def getLoser(self):
         return self.loser
 
-def printSkills(players):
-    """
-    :param players: list of the players
-    Prints skills of the players in a column
-    """
-    for player in players:
-        print(player.name + "'s skill: ", player.skill)
-
 def trivialTests():
     """ All the tests and statistics for the classes above """
     Leonid = Player("Leonid")
@@ -69,7 +61,6 @@ def trivialTests():
     Anatoly = Player("Anatoly")
 
     allPlayers = [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly]
-    printSkills(allPlayers)
 
     queue = PlayersQueue()
     for player in allPlayers:
