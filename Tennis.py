@@ -3,12 +3,12 @@ import random
 import collections
 import matplotlib.pyplot as plot
 
-def getFirstVictoryProbability(skill1, skill2):
-    return skill1 / (skill1 + skill2)
-
-def getWinner(player1, player2):
-    border = getFirstVictoryProbability(player1.skill,player2.skill)
-    return player1 if random.random() < border else player2
+class Simulator:
+    def getFirstPlayerVictoryProbability(self, skill1, skill2):
+        return skill1 / (skill1 + skill2)
+    def getWinner(self, player1, player2):
+        border = self.getFirstPlayerVictoryProbability(player1.skill, player2.skill)
+        return player1 if random.random() < border else player2
 
 class Player:
     """A class representing table tennis player"""
@@ -32,7 +32,8 @@ class PlayersQueue:
 class Match:
     """A class representing the game being played"""
     def __init__(self, player1, player2):
-        self.winner = getWinner(player1, player2)
+        simulator = Simulator()
+        self.winner = simulator.getWinner(player1, player2)
         self.winner.streak += 1
         self.loser = player1 if self.winner == player2 else player2
         self.loser.streak = 0
