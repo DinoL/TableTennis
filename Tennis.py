@@ -4,7 +4,8 @@ import collections
 import matplotlib.pyplot as plot
 
 class Simulator:
-    def getFirstPlayerVictoryProbability(self, skill1, skill2):
+    @staticmethod
+    def getFirstPlayerVictoryProbability(skill1, skill2):
         return skill1 / (skill1 + skill2)
     def getWinner(self, player1, player2):
         border = self.getFirstPlayerVictoryProbability(player1.skill, player2.skill)
@@ -69,9 +70,13 @@ def trivialTests():
     maxStreak = 2
     previousWinner = queue.getNextPlayer()
     gamesCount = 100
+    matches = []
     for i in range(gamesCount):
         newPlayer = queue.getNextPlayer()
-        #print("Now playing: ", previousWinner.name, newPlayer.name)
+
+        # print("Now playing: ", previousWinner.name, newPlayer.name)
+        matches.append((allPlayers.index(previousWinner), allPlayers.index(newPlayer)))
+
         match = Match(previousWinner, newPlayer)
         previousWinner = match.getWinner()
         loser = match.getLoser()
@@ -94,14 +99,22 @@ def trivialTests():
     hist = [sum(e)/len(allPlayers) for e in zip(*lists)]
     print("Average sorted games count:", *hist, sep="\t")
 
-    plot.plot(hist)
-    plot.title("Games count plot")
-    plot.ylabel("Average games count")
-    plot.xlabel("Competitor (in order of games count decreasing)")
-    plot.show()
+    # plot.plot(hist)
+    # plot.title("Games count plot")
+    # plot.ylabel("Average games count")
+    # plot.xlabel("Competitor (in order of games count decreasing)")
+    # plot.show()
+
+    # plot.plot(matches)
+    # plot.show()
 
     print("Name\tSkill\tGames\tWon")
     for player in allPlayers:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
+
+    first, second = (zip(*matches))
+    plot.scatter(range(len(first)), first)
+    plot.scatter(range(len(second)), second)
+    plot.show()
 
 trivialTests()
