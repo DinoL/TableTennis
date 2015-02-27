@@ -2,6 +2,7 @@ import queue
 import random
 import collections
 import matplotlib.pyplot as plot
+import matplotlib.pylab as lab
 
 class Simulator:
     @staticmethod
@@ -90,10 +91,20 @@ def trivialTests():
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
 
+    dim = len(allPlayers)
+    gamesMatrix = lab.zeros([dim, dim])
+
     for player in allPlayers:
         for competitor in allPlayers:
-            print(player.games[competitor.name], end="\t")
+            i = allPlayers.index(player)
+            j = allPlayers.index(competitor)
+            count = player.games[competitor.name]
+            print(count, end="\t")
+            gamesMatrix[i, j] = count
         print()
+
+    lab.matshow(gamesMatrix)
+    lab.show()
 
     lists = []
     for player in allPlayers:
