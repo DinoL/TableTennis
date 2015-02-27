@@ -6,7 +6,10 @@ import matplotlib.pyplot as plot
 class Simulator:
     @staticmethod
     def getFirstPlayerVictoryProbability(skill1, skill2):
-        return skill1 / (skill1 + skill2)
+        # loserProb = skill1 / (skill1 + skill2)
+        # loserProb = 0.5 * (1-abs(skill1-skill2))**10
+        loserProb = 1
+        return loserProb if skill1 < skill2 else 1 - loserProb
     def getWinner(self, player1, player2):
         border = self.getFirstPlayerVictoryProbability(player1.skill, player2.skill)
         return player1 if random.random() < border else player2
@@ -105,9 +108,6 @@ def trivialTests():
     # plot.xlabel("Competitor (in order of games count decreasing)")
     # plot.show()
 
-    # plot.plot(matches)
-    # plot.show()
-
     print("Name\tSkill\tGames\tWon")
     for player in allPlayers:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
@@ -115,6 +115,7 @@ def trivialTests():
     first, second = (zip(*matches))
     plot.scatter(range(len(first)), first)
     plot.scatter(range(len(second)), second)
+    plot.vlines(range(len(first)), first, second)
     plot.show()
 
 trivialTests()
