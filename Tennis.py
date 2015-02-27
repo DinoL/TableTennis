@@ -8,7 +8,7 @@ class Simulator:
     def getFirstPlayerVictoryProbability(skill1, skill2):
         # loserProb = skill1 / (skill1 + skill2)
         # loserProb = 0.5 * (1-abs(skill1-skill2))**10
-        loserProb = 1
+        loserProb = 0
         return loserProb if skill1 < skill2 else 1 - loserProb
     def getWinner(self, player1, player2):
         border = self.getFirstPlayerVictoryProbability(player1.skill, player2.skill)
