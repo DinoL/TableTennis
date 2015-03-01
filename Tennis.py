@@ -99,10 +99,11 @@ def trivialTests():
     queue.addPlayer(previousWinner)
     while not queue.empty():
         nextPlayer = queue.getNextPlayer()
-        print("next = ", nextPlayer.name, "queue empty = ", queue.empty())
+        # print("next = ", nextPlayer.name, "queue empty = ", queue.empty())
         orderedPlayers.append(nextPlayer)
 
-    dim = len(allPlayers)
+    names = [player.name for player in orderedPlayers]
+    dim = len(orderedPlayers)
     gamesMatrix = lab.zeros([dim, dim])
 
     for player in allPlayers:
@@ -115,6 +116,8 @@ def trivialTests():
         print()
 
     lab.matshow(gamesMatrix)
+    lab.yticks(range(dim), names)
+    lab.xticks(range(dim), names)
     lab.show()
 
     lists = []
@@ -139,7 +142,7 @@ def trivialTests():
     plot.scatter(range(len(first)), first)
     plot.scatter(range(len(second)), second)
     plot.vlines(range(len(first)), first, second)
-    plot.yticks(range(len(orderedPlayers)), [player.name for player in orderedPlayers])
+    plot.yticks(range(dim), names)
     plot.show()
 
 trivialTests()
