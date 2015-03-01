@@ -34,6 +34,8 @@ class PlayersQueue:
         self.queue.put(player)
     def getNextPlayer(self):
         return self.queue.get()
+    def empty(self):
+        return self.queue.empty()
 
 class Match:
     """A class representing the game being played"""
@@ -80,7 +82,7 @@ def trivialTests():
         newPlayer = queue.getNextPlayer()
 
         # print("Now playing: ", previousWinner.name, newPlayer.name)
-        matches.append((allPlayers.index(previousWinner), allPlayers.index(newPlayer)))
+        matches.append((previousWinner, newPlayer))
 
         match = Match(previousWinner, newPlayer)
         previousWinner = match.getWinner()
@@ -92,13 +94,21 @@ def trivialTests():
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
 
+    # Players in the queue order
+    orderedPlayers = []
+    queue.addPlayer(previousWinner)
+    while not queue.empty():
+        nextPlayer = queue.getNextPlayer()
+        print("next = ", nextPlayer.name, "queue empty = ", queue.empty())
+        orderedPlayers.append(nextPlayer)
+
     dim = len(allPlayers)
     gamesMatrix = lab.zeros([dim, dim])
 
     for player in allPlayers:
         for competitor in allPlayers:
-            i = allPlayers.index(player)
-            j = allPlayers.index(competitor)
+            i = orderedPlayers.index(player)
+            j = orderedPlayers.index(competitor)
             count = player.games[competitor.name]
             print(count, end="\t")
             gamesMatrix[i, j] = count
@@ -108,10 +118,10 @@ def trivialTests():
     lab.show()
 
     lists = []
-    for player in allPlayers:
+    for player in orderedPlayers:
         lists += [sorted(player.games.values(), reverse = True)]
 
-    hist = [sum(e)/len(allPlayers) for e in zip(*lists)]
+    hist = [sum(e)/len(orderedPlayers) for e in zip(*lists)]
     print("Average sorted games count:", *hist, sep="\t")
 
     # plot.plot(hist)
@@ -121,13 +131,15 @@ def trivialTests():
     # plot.show()
 
     print("Name\tSkill\tGames\tWon")
-    for player in allPlayers:
+    for player in orderedPlayers:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
 
+    matches = [(orderedPlayers.index(player1), orderedPlayers.index(player2)) for (player1, player2) in matches]
     first, second = (zip(*matches))
     plot.scatter(range(len(first)), first)
     plot.scatter(range(len(second)), second)
     plot.vlines(range(len(first)), first, second)
+    plot.yticks(range(len(orderedPlayers)), [player.name for player in orderedPlayers])
     plot.show()
 
 trivialTests()
