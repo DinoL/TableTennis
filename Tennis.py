@@ -137,11 +137,12 @@ def trivialTests():
     for player in orderedPlayers:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
 
+    gamesToPlot = 100
     matches = [(orderedPlayers.index(player1), orderedPlayers.index(player2)) for (player1, player2) in matches]
     first, second = (zip(*matches))
-    plot.scatter(range(len(first)), first)
-    plot.scatter(range(len(second)), second)
-    plot.vlines(range(len(first)), first, second)
+    plot.scatter(range(gamesToPlot), first[-gamesToPlot:])
+    plot.scatter(range(gamesToPlot), second[-gamesToPlot:])
+    plot.vlines(range(gamesToPlot), first[-gamesToPlot:], second[-gamesToPlot:])
     plot.yticks(range(dim), names)
     plot.show()
 
