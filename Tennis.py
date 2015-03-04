@@ -55,6 +55,14 @@ class Match:
     def getLoser(self):
         return self.loser
 
+class Rules:
+    """A set of rules for player change order etc"""
+    def __init__(self, maxStreak, gamesCount, plotGamesCount):
+        self.maxStreak = maxStreak
+        self.gamesCount = gamesCount
+        self.plotGamesCount = plotGamesCount
+
+
 def trivialTests():
     """ All the tests and statistics for the classes above """
     Leonid = Player("Leonid")
@@ -74,11 +82,12 @@ def trivialTests():
     for player in allPlayers:
         queue.addPlayer(player)
 
-    maxStreak = 2
+    rules = Rules(2, 10000, 100)
+
     previousWinner = queue.getNextPlayer()
-    gamesCount = 100
+
     matches = []
-    for i in range(gamesCount):
+    for i in range(rules.gamesCount):
         newPlayer = queue.getNextPlayer()
 
         # print("Now playing: ", previousWinner.name, newPlayer.name)
@@ -89,7 +98,7 @@ def trivialTests():
         loser = match.getLoser()
         loser.streak = 0
         queue.addPlayer(loser)
-        if previousWinner.streak >= maxStreak:
+        if previousWinner.streak >= rules.maxStreak:
             previousWinner.streak = 0
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
@@ -137,12 +146,12 @@ def trivialTests():
     for player in orderedPlayers:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
 
-    gamesToPlot = 100
+    xTicks = range(rules.plotGamesCount)
     matches = [(orderedPlayers.index(player1), orderedPlayers.index(player2)) for (player1, player2) in matches]
     first, second = (zip(*matches))
-    plot.scatter(range(gamesToPlot), first[-gamesToPlot:])
-    plot.scatter(range(gamesToPlot), second[-gamesToPlot:])
-    plot.vlines(range(gamesToPlot), first[-gamesToPlot:], second[-gamesToPlot:])
+    plot.scatter(xTicks, first[-rules.plotGamesCount:])
+    plot.scatter(xTicks, second[-rules.plotGamesCount:])
+    plot.vlines(xTicks, first[-rules.plotGamesCount:], second[-rules.plotGamesCount:])
     plot.yticks(range(dim), names)
     plot.show()
 
