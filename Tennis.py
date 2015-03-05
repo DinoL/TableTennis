@@ -7,8 +7,8 @@ import matplotlib.pylab as lab
 class Simulator:
     @staticmethod
     def firstPlayerWon(player1, player2):
-        # border = skill1 / (skill1 + skill2)
-        # border = 0.5 * (1-abs(skill1-skill2))**10
+        # border = player1.skill / (player1.skill + player2.skill)
+        # border = 0.5 * (1-abs(player1.skill-player2.skill))**10
         # return random.random() < border
         return player1.skill > player2.skill
     @staticmethod
@@ -90,25 +90,22 @@ def trivialTests():
         newPlayer = queue.getNextPlayer()
 
         # print("Now playing: ", previousWinner.name, newPlayer.name)
-        matches.append((previousWinner, newPlayer))
 
         match = Match(previousWinner, newPlayer)
         previousWinner = match.getWinner()
         loser = match.getLoser()
         loser.streak = 0
         queue.addPlayer(loser)
+
+        matches.append((previousWinner, loser))
+
         if previousWinner.streak >= rules.maxStreak:
             previousWinner.streak = 0
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
 
-    # Players in the queue order
-    orderedPlayers = []
-    queue.addPlayer(previousWinner)
-    while not queue.empty():
-        nextPlayer = queue.getNextPlayer()
-        # print("next = ", nextPlayer.name, "queue empty = ", queue.empty())
-        orderedPlayers.append(nextPlayer)
+    # Players in the skill order
+    orderedPlayers = sorted(allPlayers, key = lambda player : player.skill)
 
     names = [player.name for player in orderedPlayers]
     dim = len(orderedPlayers)
