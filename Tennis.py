@@ -6,15 +6,14 @@ import matplotlib.pylab as lab
 
 class Simulator:
     @staticmethod
-    def getFirstPlayerVictoryProbability(skill1, skill2):
-        # loserProb = skill1 / (skill1 + skill2)
-        # loserProb = 0.5 * (1-abs(skill1-skill2))**10
-        loserProb = 0
-        return loserProb if skill1 < skill2 else 1 - loserProb
+    def firstPlayerWon(player1, player2):
+        # border = skill1 / (skill1 + skill2)
+        # border = 0.5 * (1-abs(skill1-skill2))**10
+        # return random.random() < border
+        return player1.skill > player2.skill
     @staticmethod
     def getWinner(player1, player2):
-        border = Simulator.getFirstPlayerVictoryProbability(player1.skill, player2.skill)
-        return player1 if random.random() < border else player2
+        return player1 if Simulator.firstPlayerWon(player1, player2) else player2
 
 class Player:
     """A class representing table tennis player"""
