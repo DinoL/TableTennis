@@ -81,7 +81,7 @@ def trivialTests():
     for player in allPlayers:
         queue.addPlayer(player)
 
-    rules = Rules(2, 10000, 100)
+    rules = Rules(2, 100, 100)
 
     previousWinner = queue.getNextPlayer()
 
@@ -148,8 +148,8 @@ def trivialTests():
     xTicks = range(rules.plotGamesCount)
     matches = [(orderedPlayers.index(player1), orderedPlayers.index(player2)) for (player1, player2) in matches]
     first, second = (zip(*matches))
-    plot.scatter(xTicks, first[-rules.plotGamesCount:])
-    plot.scatter(xTicks, second[-rules.plotGamesCount:])
+    plot.scatter(xTicks, first[-rules.plotGamesCount:], color = "red")
+    plot.scatter(xTicks, second[-rules.plotGamesCount:], color = "blue")
     plot.vlines(xTicks, first[-rules.plotGamesCount:], second[-rules.plotGamesCount:])
     plot.yticks(range(dim), names)
     plot.show()
