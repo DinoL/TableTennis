@@ -5,15 +5,39 @@ import matplotlib.pyplot as plot
 import matplotlib.pylab as lab
 
 class Simulator:
-    @staticmethod
-    def firstPlayerWon(player1, player2):
-        # border = player1.skill / (player1.skill + player2.skill)
-        # border = 0.5 * (1-abs(player1.skill-player2.skill))**10
-        # return random.random() < border
+    def getFirstVictoryProbability(self, skill1, skill2):
+        pass
+    def firstPlayerWon(self, player1, player2):
+        pass
+    def getWinner(self, player1, player2):
+        return player1 if self.firstPlayerWon(player1, player2) else player2
+
+class HardSimulator(Simulator):
+    def getFirstVictoryProbability(self, skill1, skill2):
+        return 1.0 if skill1 > skill2 else 0.0
+    def firstPlayerWon(self, player1, player2):
         return player1.skill > player2.skill
-    @staticmethod
-    def getWinner(player1, player2):
-        return player1 if Simulator.firstPlayerWon(player1, player2) else player2
+
+class RandomizedSimulator(Simulator):
+    def getFirstVictoryProbability(self, skill1, skill2):
+        prob = 0.5 * (1-abs(skill1-skill2))**10
+        if skill1 > skill2:
+            prob = 1.0 - prob
+        return prob
+    def firstPlayerWon(self, player1, player2):
+        return random.random() < self.getFirstVictoryProbability(player1.skill, player2.skill)
+
+class HardRandomSimulator(Simulator):
+    def getFirstVictoryProbability(self, skill1, skill2):
+        return skill1 / (skill1 + skill2)
+    def firstPlayerWon(self, player1, player2):
+        return random.random() < self.getFirstVictoryProbability(player1.skill, player2.skill)
+
+class NonTransitiveSimulator(Simulator):
+    def getFirstVictoryProbability(self, skill1, skill2):
+        return 0.0
+    def firstPlayerWon(self, player1, player2):
+        return False
 
 class Player:
     """A class representing table tennis player"""
@@ -38,8 +62,7 @@ class PlayersQueue:
 
 class Match:
     """A class representing the game being played"""
-    def __init__(self, player1, player2):
-        simulator = Simulator()
+    def __init__(self, player1, player2, simulator):
         self.winner = simulator.getWinner(player1, player2)
         self.winner.streak += 1
         self.loser = player1 if self.winner == player2 else player2
@@ -130,7 +153,7 @@ def createPairMatchingPlot(players, matches, count):
     plot.yticks(range(len(players)), getNames(players))
     plot.show()
 
-def runMatches(players, rules):
+def runMatches(players, rules, simulator):
     queue = PlayersQueue()
     fillQueue(queue, players)
 
@@ -141,7 +164,7 @@ def runMatches(players, rules):
 
         # print("Now playing: ", previousWinner.name, newPlayer.name)
 
-        match = Match(previousWinner, newPlayer)
+        match = Match(previousWinner, newPlayer, simulator)
         previousWinner = match.getWinner()
         loser = match.getLoser()
         loser.streak = 0
@@ -161,8 +184,9 @@ def trivialTests():
 
     allPlayers = createPlayers()
     rules = Rules(2, 100, 100)
+    simulator = HardSimulator()
 
-    matches = runMatches(allPlayers, rules)
+    matches = runMatches(allPlayers, rules, simulator)
 
     # Players sorted by their skill
     orderedPlayers = sorted(allPlayers, key = lambda player : player.skill)
