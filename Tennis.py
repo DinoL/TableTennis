@@ -39,6 +39,17 @@ class NonTransitiveSimulator(Simulator):
     def firstPlayerWon(self, player1, player2):
         return False
 
+class RealisticSimulator(Simulator):
+    def __init__(self):
+        self.pair = {}
+    def getFirstVictoryProbability(self, skill1, skill2):
+        pass
+    def firstPlayerWon(self, player1, player2):
+        if (player1, player2) not in self.pair:
+            firstWon = random.random() < 0.5
+            self.pair[(player1, player2)] = firstWon
+        return self.pair[(player1, player2)]
+
 class Player:
     """A class representing table tennis player"""
     def __init__(self, name):
