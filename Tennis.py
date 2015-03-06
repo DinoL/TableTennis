@@ -130,16 +130,11 @@ def createPairMatchingPlot(players, matches, count):
     plot.yticks(range(len(players)), getNames(players))
     plot.show()
 
-def trivialTests():
-    """ All the tests and statistics for the classes above """
-
-    allPlayers = createPlayers()
+def runMatches(players, rules):
     queue = PlayersQueue()
-    fillQueue(queue, allPlayers)
-    rules = Rules(2, 100, 100)
+    fillQueue(queue, players)
 
     previousWinner = queue.getNextPlayer()
-
     matches = []
     for i in range(rules.gamesCount):
         newPlayer = queue.getNextPlayer()
@@ -158,6 +153,16 @@ def trivialTests():
             previousWinner.streak = 0
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
+
+    return matches
+
+def trivialTests():
+    """ All the tests and statistics for the classes above """
+
+    allPlayers = createPlayers()
+    rules = Rules(2, 100, 100)
+
+    matches = runMatches(allPlayers, rules)
 
     # Players sorted by their skill
     orderedPlayers = sorted(allPlayers, key = lambda player : player.skill)
