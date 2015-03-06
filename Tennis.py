@@ -208,3 +208,24 @@ def trivialTests():
     createPairMatchingPlot(orderedPlayers, matches, rules.plotGamesCount)
 
 trivialTests()
+
+def realisticSimulatorTest():
+    simulator = RealisticSimulator()
+    a = Player("a")
+    b = Player("b")
+    initialMatch = Match(a, b, simulator)
+    winner = initialMatch.getWinner()
+    for i in range(10):
+        match = Match(a, b, simulator)
+        assert(match.getWinner() == winner)
+
+def hardSimulatorTest():
+    simulator = HardSimulator()
+    a = Player("a")
+    b = Player("b")
+    a.skill = 0.8
+    b.skill = 0.6
+    assert(Match(a, b, simulator).getWinner() == a)
+
+realisticSimulatorTest()
+hardSimulatorTest()
