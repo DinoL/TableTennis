@@ -62,8 +62,7 @@ class Rules:
         self.plotGamesCount = plotGamesCount
 
 
-def trivialTests():
-    """ All the tests and statistics for the classes above """
+def createPlayers():
     Leonid = Player("Leonid")
     Yaroslav = Player("Yaroslav")
     PavelR = Player("PavelR")
@@ -74,13 +73,69 @@ def trivialTests():
     PavelS = Player("PavelS")
     Roman = Player("Roman")
     Anatoly = Player("Anatoly")
+    return [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly]
 
-    allPlayers = [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly]
-
-    queue = PlayersQueue()
-    for player in allPlayers:
+def fillQueue(queue, players):
+    for player in players:
         queue.addPlayer(player)
 
+def getNames(players):
+    return [player.name for player in players]
+
+def createGamesMatrix(players):
+    names = getNames(players)
+    dim = len(players)
+    gamesMatrix = lab.zeros([dim, dim])
+
+    for player in players:
+        for competitor in players:
+            i = players.index(player)
+            j = players.index(competitor)
+            count = player.games[competitor.name]
+            print(count, end="\t")
+            gamesMatrix[i, j] = count
+        print()
+
+    lab.matshow(gamesMatrix)
+    lab.yticks(range(dim), names)
+    lab.xticks(range(dim), names)
+    lab.show()
+
+def createGamesPlot(players):
+    lists = []
+    for player in players:
+        lists += [sorted(player.games.values(), reverse = True)]
+
+    hist = [sum(e)/len(players) for e in zip(*lists)]
+    print("Average sorted games count:", *hist, sep="\t")
+
+    plot.plot(hist)
+    plot.title("Games count plot")
+    plot.ylabel("Average games count")
+    plot.xlabel("Competitor (in order of games count decreasing)")
+    plot.show()
+
+def printGamesStatistics(players):
+    print("Name\tSkill\tGames\tWon")
+    for player in players:
+        print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
+
+def createPairMatchingPlot(players, matches, count):
+    xTicks = range(count)
+    matches = [(players.index(player1), players.index(player2)) for (player1, player2) in matches]
+    first, second = (zip(*matches))
+    plot.scatter(xTicks, first[-count:], color = "red")
+    plot.scatter(xTicks, second[-count:], color = "blue")
+    plot.vlines(xTicks, first[-count:], second[-count:])
+    plot.yticks(range(len(players)), getNames(players))
+    plot.show()
+
+def trivialTests():
+    """ All the tests and statistics for the classes above """
+
+    allPlayers = createPlayers()
+    queue = PlayersQueue()
+    fillQueue(queue, allPlayers)
     rules = Rules(2, 100, 100)
 
     previousWinner = queue.getNextPlayer()
@@ -104,51 +159,12 @@ def trivialTests():
             queue.addPlayer(previousWinner)
             previousWinner = queue.getNextPlayer()
 
-    # Players in the skill order
+    # Players sorted by their skill
     orderedPlayers = sorted(allPlayers, key = lambda player : player.skill)
 
-    names = [player.name for player in orderedPlayers]
-    dim = len(orderedPlayers)
-    gamesMatrix = lab.zeros([dim, dim])
-
-    for player in allPlayers:
-        for competitor in allPlayers:
-            i = orderedPlayers.index(player)
-            j = orderedPlayers.index(competitor)
-            count = player.games[competitor.name]
-            print(count, end="\t")
-            gamesMatrix[i, j] = count
-        print()
-
-    lab.matshow(gamesMatrix)
-    lab.yticks(range(dim), names)
-    lab.xticks(range(dim), names)
-    lab.show()
-
-    lists = []
-    for player in orderedPlayers:
-        lists += [sorted(player.games.values(), reverse = True)]
-
-    hist = [sum(e)/len(orderedPlayers) for e in zip(*lists)]
-    print("Average sorted games count:", *hist, sep="\t")
-
-    # plot.plot(hist)
-    # plot.title("Games count plot")
-    # plot.ylabel("Average games count")
-    # plot.xlabel("Competitor (in order of games count decreasing)")
-    # plot.show()
-
-    print("Name\tSkill\tGames\tWon")
-    for player in orderedPlayers:
-        print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
-
-    xTicks = range(rules.plotGamesCount)
-    matches = [(orderedPlayers.index(player1), orderedPlayers.index(player2)) for (player1, player2) in matches]
-    first, second = (zip(*matches))
-    plot.scatter(xTicks, first[-rules.plotGamesCount:], color = "red")
-    plot.scatter(xTicks, second[-rules.plotGamesCount:], color = "blue")
-    plot.vlines(xTicks, first[-rules.plotGamesCount:], second[-rules.plotGamesCount:])
-    plot.yticks(range(dim), names)
-    plot.show()
+    createGamesMatrix(orderedPlayers)
+    createGamesPlot(orderedPlayers)
+    printGamesStatistics(orderedPlayers)
+    createPairMatchingPlot(orderedPlayers, matches, rules.plotGamesCount)
 
 trivialTests()
