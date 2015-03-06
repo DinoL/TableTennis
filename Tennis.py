@@ -1,54 +1,9 @@
+import Simulators
 import queue
 import random
 import collections
 import matplotlib.pyplot as plot
 import matplotlib.pylab as lab
-
-class Simulator:
-    def getFirstVictoryProbability(self, skill1, skill2):
-        pass
-    def firstPlayerWon(self, player1, player2):
-        pass
-    def getWinner(self, player1, player2):
-        return player1 if self.firstPlayerWon(player1, player2) else player2
-
-class HardSimulator(Simulator):
-    def getFirstVictoryProbability(self, skill1, skill2):
-        return 1.0 if skill1 > skill2 else 0.0
-    def firstPlayerWon(self, player1, player2):
-        return player1.skill > player2.skill
-
-class RandomizedSimulator(Simulator):
-    def getFirstVictoryProbability(self, skill1, skill2):
-        prob = 0.5 * (1-abs(skill1-skill2))**10
-        if skill1 > skill2:
-            prob = 1.0 - prob
-        return prob
-    def firstPlayerWon(self, player1, player2):
-        return random.random() < self.getFirstVictoryProbability(player1.skill, player2.skill)
-
-class HardRandomSimulator(Simulator):
-    def getFirstVictoryProbability(self, skill1, skill2):
-        return skill1 / (skill1 + skill2)
-    def firstPlayerWon(self, player1, player2):
-        return random.random() < self.getFirstVictoryProbability(player1.skill, player2.skill)
-
-class NonTransitiveSimulator(Simulator):
-    def getFirstVictoryProbability(self, skill1, skill2):
-        return 0.0
-    def firstPlayerWon(self, player1, player2):
-        return False
-
-class RealisticSimulator(Simulator):
-    def __init__(self):
-        self.pair = {}
-    def getFirstVictoryProbability(self, skill1, skill2):
-        pass
-    def firstPlayerWon(self, player1, player2):
-        if (player1, player2) not in self.pair:
-            firstWon = random.random() < 0.5
-            self.pair[(player1, player2)] = firstWon
-        return self.pair[(player1, player2)]
 
 class Player:
     """A class representing table tennis player"""
@@ -195,7 +150,7 @@ def trivialTests():
 
     allPlayers = createPlayers()
     rules = Rules(2, 100, 100)
-    simulator = HardSimulator()
+    simulator = Simulators.HardSimulator()
 
     matches = runMatches(allPlayers, rules, simulator)
 
@@ -210,7 +165,7 @@ def trivialTests():
 trivialTests()
 
 def realisticSimulatorTest():
-    simulator = RealisticSimulator()
+    simulator = Simulators.RealisticSimulator()
     a = Player("a")
     b = Player("b")
     initialMatch = Match(a, b, simulator)
@@ -220,7 +175,7 @@ def realisticSimulatorTest():
         assert(match.getWinner() == winner)
 
 def hardSimulatorTest():
-    simulator = HardSimulator()
+    simulator = Simulators.HardSimulator()
     a = Player("a")
     b = Player("b")
     a.skill = 0.8
