@@ -15,8 +15,10 @@ class HardSimulator(Simulator):
         return player1.skill > player2.skill
 
 class RandomizedSimulator(Simulator):
+    def __init__(self, skewness = 10):
+        self.skewness = skewness
     def getFirstVictoryProbability(self, skill1, skill2):
-        prob = 0.5 * (1-abs(skill1-skill2))**10
+        prob = 0.5 * (1-abs(skill1-skill2))**self.skewness
         if skill1 > skill2:
             prob = 1.0 - prob
         return prob

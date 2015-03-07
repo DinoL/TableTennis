@@ -150,7 +150,7 @@ def trivialTests():
 
     allPlayers = createPlayers()
     rules = Rules(2, 100, 100)
-    simulator = Simulators.HardSimulator()
+    simulator = Simulators.RandomizedSimulator(5)
 
     matches = runMatches(allPlayers, rules, simulator)
 
