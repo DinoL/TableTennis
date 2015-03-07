@@ -7,8 +7,10 @@ import matplotlib.pylab as lab
 
 class Player:
     """A class representing table tennis player"""
-    def __init__(self, name):
-        self.skill = random.random()
+    def __init__(self, name, skill = None):
+        if skill is None:
+            skill = random.random()
+        self.skill = skill
         self.name = name
         self.gamesCount = 0
         self.streak = 0
@@ -145,7 +147,7 @@ def runMatches(players, rules, simulator):
 
     return matches
 
-def trivialTests():
+def runAllCalculations():
     """ All the tests and statistics for the classes above """
 
     allPlayers = createPlayers()
@@ -162,25 +164,4 @@ def trivialTests():
     printGamesStatistics(orderedPlayers)
     createPairMatchingPlot(orderedPlayers, matches, rules.plotGamesCount)
 
-trivialTests()
-
-def realisticSimulatorTest():
-    simulator = Simulators.RealisticSimulator()
-    a = Player("a")
-    b = Player("b")
-    initialMatch = Match(a, b, simulator)
-    winner = initialMatch.getWinner()
-    for i in range(10):
-        match = Match(a, b, simulator)
-        assert(match.getWinner() == winner)
-
-def hardSimulatorTest():
-    simulator = Simulators.HardSimulator()
-    a = Player("a")
-    b = Player("b")
-    a.skill = 0.8
-    b.skill = 0.6
-    assert(Match(a, b, simulator).getWinner() == a)
-
-realisticSimulatorTest()
-hardSimulatorTest()
+runAllCalculations()
