@@ -1,6 +1,7 @@
 from unittest import TestCase
 from Simulators import HardSimulator
 from Simulators import RealisticSimulator
+from Simulators import RandomizedSimulator
 from Tennis import Player
 
 
@@ -17,3 +18,7 @@ class SimulatorTest(TestCase):
         simulator = RealisticSimulator()
         winner = simulator.getWinner(a, b)
         self.assertEqual(simulator.getWinner(a, b), winner)
+
+    def test_EqualChances(self):
+        simulator = RandomizedSimulator()
+        self.assertEqual(simulator.getFirstVictoryProbability(0.7, 0.7), 0.5)
