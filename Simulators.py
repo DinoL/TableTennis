@@ -27,6 +27,8 @@ class RandomizedSimulator(Simulator):
 
 class HardRandomSimulator(Simulator):
     def getFirstVictoryProbability(self, skill1, skill2):
+        if skill1 + skill2 == 0.0:
+            return 0.5
         return skill1 / (skill1 + skill2)
     def firstPlayerWon(self, player1, player2):
         return random.random() < self.getFirstVictoryProbability(player1.skill, player2.skill)
