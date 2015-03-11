@@ -36,6 +36,13 @@ class RandomizedSimulatorTest(TestCase):
         self.assertEqual(simulator.getFirstVictoryProbability(0.7, 0.7), 0.5)
         self.assertEqual(simulator.getFirstVictoryProbability(0.0, 0.0), 0.5)
         self.assertEqual(simulator.getFirstVictoryProbability(1.0, 1.0), 0.5)
+    def test_skewnessGrowth(self):
+        simulator1 = Simulators.RandomizedSimulator(5)
+        simulator2 = Simulators.RandomizedSimulator(20)
+        skill1, skill2 = 0.2, 0.8
+        prob1 = simulator1.getFirstVictoryProbability(skill1, skill2)
+        prob2 = simulator2.getFirstVictoryProbability(skill1, skill2)
+        self.assertGreater(prob1, prob2)
 
 class HardRandomSimulatorTest(TestCase):
     def test_FullProbability(self):
