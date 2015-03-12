@@ -61,8 +61,20 @@ def printGamesStatistics(players):
     for player in players:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
 
+def splitPlayers(players, matches):
+    splittedPlayers = []
+    for (player1, player2) in matches:
+        if player1 not in splittedPlayers:
+            splittedPlayers.append(player1)
+        if player2 not in splittedPlayers:
+            splittedPlayers.append(player2)
+    return splittedPlayers
+
 def createPairMatchingPlot(players, matches, count):
     xTicks = range(count)
+
+    players = splitPlayers(players, matches[-count:])
+
     matches = [(players.index(player1), players.index(player2)) for (player1, player2) in matches]
     first, second = (zip(*matches))
     plot.scatter(xTicks, first[-count:], color = "red")
@@ -101,7 +113,7 @@ def runAllCalculations():
     """ All the tests and statistics for the classes above """
 
     allPlayers = createPlayers()
-    rules = Rules(2, 100, 100)
+    rules = Rules(2, 1000, 100)
     simulator = Simulators.HardSimulator()
 
     matches = runMatches(allPlayers, rules, simulator)
