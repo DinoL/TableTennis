@@ -73,9 +73,10 @@ def NonTransitiveSimulatorTest(TestCase):
 
 class RealisticSimulatorTest(TestCase):
     def test_TheSameWinsAlways(self):
-        a = Player("a")
-        b = Player("b")
+        a = Player("a", 0.5)
+        b = Player("b", 0.5)
         simulator = Simulators.RealisticSimulator()
         winner = simulator.getWinner(a, b)
         self.assertEqual(simulator.getWinner(a, b), winner)
         self.assertEqual(simulator.getWinner(a, b), winner)
+        self.assertEqual(simulator.getWinner(b, a), winner)

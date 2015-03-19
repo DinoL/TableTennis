@@ -50,4 +50,5 @@ class RealisticSimulator(Simulator):
             simulator = RandomizedSimulator(self.skewness)
             firstWon = simulator.firstPlayerWon(player1, player2)
             self.pair[(player1, player2)] = firstWon
+            self.pair[(player2, player1)] = not firstWon
         return self.pair[(player1, player2)]
