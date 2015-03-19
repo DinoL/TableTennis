@@ -75,6 +75,41 @@ def splitPlayers(matches):
             splittedPlayers.append(player2)
     return splittedPlayers
 
+def findPlayersGroups(matches):
+    firstGroup = []
+    secondGroup = []
+    for (player1, player2) in matches:
+        firstIn1 = (player1 in firstGroup)
+        firstIn2 = (player1 in secondGroup)
+        secondIn1 = (player2 in firstGroup)
+        secondIn2 = (player2 in secondGroup)
+        firstInAny = (firstIn1 or firstIn2)
+        secondInAny = (secondIn1 or secondIn2)
+
+        if firstInAny and secondInAny:
+            continue
+
+        if not firstInAny and not secondInAny:
+            firstGroup.append(player1)
+            secondGroup.append(player2)
+            continue
+
+        if firstIn1:
+            secondGroup.append(player2)
+            continue
+        if firstIn2:
+            firstGroup.append(player2)
+            continue
+
+        if secondIn1:
+            secondGroup.append(player1)
+            continue
+        if secondIn2:
+            firstGroup.append(player1)
+            continue
+
+    return [firstGroup, secondGroup]
+
 def createPairMatchingPlot(players, matches, count):
     xTicks = range(count)
 
