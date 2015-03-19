@@ -14,7 +14,12 @@ def createPlayers():
     PavelS = Player("PavelS")
     Roman = Player("Roman")
     Anatoly = Player("Anatoly")
-    return [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly]
+    Darya = Player("Darya")
+    Andrey = Player("Andrey")
+    Gasan = Player("Gasan")
+    Artem = Player("Artem")
+
+    return [Leonid, Yaroslav, PavelR, AnnaO, Sergey, Alexey, AnnaE, PavelS, Roman, Anatoly, Darya, Andrey, Gasan, Artem]
 
 def fillQueue(queue, players):
     for player in players:
@@ -61,7 +66,7 @@ def printGamesStatistics(players):
     for player in players:
         print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
 
-def splitPlayers(players, matches):
+def splitPlayers(matches):
     splittedPlayers = []
     for (player1, player2) in matches:
         if player1 not in splittedPlayers:
@@ -73,7 +78,7 @@ def splitPlayers(players, matches):
 def createPairMatchingPlot(players, matches, count):
     xTicks = range(count)
 
-    players = splitPlayers(players, matches[-count:])
+    players = splitPlayers(matches[-count:])
 
     matches = [(players.index(player1), players.index(player2)) for (player1, player2) in matches]
     first, second = (zip(*matches))
