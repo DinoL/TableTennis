@@ -1,4 +1,4 @@
-import queue
+import Queue
 import random
 import collections
 
@@ -17,7 +17,7 @@ class Player:
 class PlayersQueue:
     """A class representing waiting players"""
     def __init__(self):
-        self.queue = queue.Queue()
+        self.queue = Queue.Queue()
     def addPlayer(self, player):
         self.queue.put(player)
     def getNextPlayer(self):

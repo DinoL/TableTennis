@@ -38,9 +38,9 @@ def createGamesMatrix(players):
             i = players.index(player)
             j = players.index(competitor)
             count = player.games[competitor.name]
-            print(count, end="\t")
+            print count,
             gamesMatrix[i, j] = count
-        print()
+        print
 
     lab.matshow(gamesMatrix)
     lab.yticks(range(dim), names)
@@ -53,7 +53,6 @@ def createGamesPlot(players):
         lists += [sorted(player.games.values(), reverse = True)]
 
     hist = [sum(e)/len(players) for e in zip(*lists)]
-    print("Average sorted games count:", *hist, sep="\t")
 
     plot.plot(hist)
     plot.title("Games count plot")
@@ -64,7 +63,7 @@ def createGamesPlot(players):
 def printGamesStatistics(players):
     print("Name\tSkill\tGames\tWon")
     for player in players:
-        print(player.name, player.skill, player.gamesCount, player.victories, sep="\t")
+        print player.name, player.skill, player.gamesCount, player.victories
 
 def splitPlayers(matches):
     splittedPlayers = []
