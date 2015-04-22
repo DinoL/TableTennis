@@ -1,0 +1,60 @@
+11-2 11-2 11-0	Anatoliy Boltunov	Sergey Gerasimov
+11-6 11-4 11-5	Anatoliy Boltunov	Artem Saakyan
+11-4 11-3 11-7	Pavel Razumovsky	Ilya Kurnosov
+9-11 11-3 11-9 11-8	Andrey Nekrasov	Pavel Razumovsky
+11-2 11-2 11-8	Pavel Sokolov	Pavel Razumovsky
+11-3 11-5 12-14 11-3	Pavel Sokolov	Andrey Nekrasov
+11-5 11-7 18-16	Andrey Nekrasov	Leonid Grechishnikov
+8-11 6-11 11-8 11-8 12-10	Dmitry Komkov	Andrey Cherkas
+11-5 11-5 11-6	Pavel Pokotilov	Dmitry Komkov
+11-7 11-13 11-8 11-7	Roman Gudchenko	Pavel Pokotilov
+11-2 11-4 11-7	Anatoliy Boltunov	Andrey Grishin
+5-11 3-11 11-5 11-7 11-8	Dmitry Komkov	Yaroslav Starikovich
+11-1 11-1 11-1	Leonid Grechishnikov	Mikhail Matrosov
+11-8 7-11 13-11 11-4	Alexey Rakogon	Pavel Ivanitskiy
+11-1 13-11 9-11 11-9	Yaroslav Starikovich	Andrey Cherkas
+11-8 11-8 12-10	Pavel Pokotilov	Andrey Cherkas
+11-2 11-1 11-7	Andrey Nekrasov	Mikhail Matrosov
+11-3 11-2 11-5	Pavel Sokolov	Mikhail Matrosov
+11-7 11-9 12-10	Pavel Pokotilov	Yaroslav Starikovich
+11-4 11-6 11-6	Anastasia Kordiukova	Ekaterina Tolstaya
+11-2 11-3 11-6	Anatoliy Boltunov	Boris Vasilevskiy
+11-1 11-4 12-10	Boris Vasilevskiy	Artem Saakyan
+11-7 11-5 6-11 11-3	Pavel Ivanitskiy	Anna Orlova
+11-3 11-5 11-5	Boris Vasilevskiy	Andrey Grishin
+9-11 11-9 6-11 11-9 11-7	Sergey Gerasimov	Andrey Grishin
+11-8 11-8 9-11 11-9	Anastasia Kordiukova	Anna Orlova
+11-4 11-5 11-6	Pavel Ivanitskiy	Ekaterina Tolstaya
+9-11 14-12 11-7 8-11 11-9	Ilya Kurnosov	Mikhail Matrosov
+11-4 11-4 11-1	Roman Gudchenko	Andrey Cherkas
+11-5 11-4 11-4	Roman Gudchenko	Yaroslav Starikovich
+11-2 11-2 11-2	Iohan Duhin	Pavel Ivanitskiy
+11-9 11-6 7-11 11-4	Pavel Razumovsky	Mikhail Matrosov
+11-5 11-7 11-4	Iohan Duhin	Alexey Rakogon
+11-8 11-5 10-12 11-4	Dmitry Komkov	Sergey Valiev
+11-2 11-4 11-7	Artem Saakyan	Irina Ivanova
+11-4 11-4 11-6	Boris Vasilevskiy	Irina Ivanova
+11-7 12-10 12-10	Ekaterina Tolstaya	Anna Orlova
+11-6 11-6 11-3	Artem Saakyan	Andrey Grishin
+11-0 11-2 11-4	Boris Vasilevskiy	Sergey Gerasimov
+8-11 11-9 11-9 10-12 14-12	Alexey Rakogon	Anna Orlova
+13-11 11-2 11-6	Pavel Pokotilov	Sergey Valiev
+11-6 8-11 13-11 11-8	Yaroslav Starikovich	Sergey Valiev
+11-2 11-5 11-5	Roman Gudchenko	Sergey Valiev
+11-5 11-4 11-6	Irina Ivanova	Andrey Grishin
+11-9 11-4 12-10	Artem Saakyan	Sergey Gerasimov
+11-1 11-5 11-9	Alexey Rakogon	Ekaterina Tolstaya
+11-6 11-3 11-3	Anatoliy Boltunov	Irina Ivanova
+11-2 11-3 11-2	Iohan Duhin	Ekaterina Tolstaya
+11-3 11-7 11-4	Roman Gudchenko	Dmitry Komkov
+11-3 11-3 11-4	Iohan Duhin	Anastasia Kordiukova
+11-4 11-5 11-5	Leonid Grechishnikov	Ilya Kurnosov
+11-4 11-8 11-9	Andrey Cherkas	Sergey Valiev
+11-7 11-6 11-7	Anastasia Kordiukova	Pavel Ivanitskiy
+11-9 12-10 11-9	Alexey Rakogon	Anastasia Kordiukova
+6-11 6-11 11-8 11-7 11-9	Pavel Razumovsky	Leonid Grechishnikov
+11-4 11-2 11-5	Andrey Nekrasov	Ilya Kurnosov
+11-7 11-7 11-7	Pavel Sokolov	Ilya Kurnosov
+11-1 11-3 11-1	Iohan Duhin	Anna Orlova
+11-3 11-9 11-9	Pavel Sokolov	Leonid Grechishnikov
+0-0	Irina Ivanova	Sergey Gerasimov
