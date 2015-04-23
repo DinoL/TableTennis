@@ -52,3 +52,11 @@ class RealisticSimulator(Simulator):
             self.pair[(player1, player2)] = firstWon
             self.pair[(player2, player1)] = not firstWon
         return self.pair[(player1, player2)]
+
+class ManualSimulator(Simulator):
+    def __init__(self, firstWon):
+        self.firstWon = firstWon
+    def getFirstVictoryProbability(self, skill1, skill2):
+        return 1.0 if self.firstWon else 0.0
+    def firstPlayerWon(self, player1, player2):
+        return self.firstWon
