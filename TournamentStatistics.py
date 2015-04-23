@@ -2,6 +2,15 @@ from Tennis import Player, Match
 from Simulators import ManualSimulator
 
 statisticsPath = "Align5thTableTennisTournamentLogs.txt"
+playersList = []
+
+def findPlayerByName(name):
+    for player in playersList:
+        if name == player.name:
+            return player
+    player = Player(name)
+    playersList.append(player)
+    return player
 
 def parseGames(gamesStr):
     games = gamesStr.split(" ")
@@ -27,8 +36,8 @@ def parseFile(file):
 
 def parseLine(line):
     lineList = line.split("\t")
-    firstPlayer = Player(lineList[1])
-    secondPlayer = Player(lineList[2])
+    firstPlayer = findPlayerByName(lineList[1].strip())
+    secondPlayer = findPlayerByName(lineList[2].strip())
     simulator = ManualSimulator(firstWon(parseGames(lineList[0])))
     match = Match(firstPlayer, secondPlayer, simulator)
     print match.getWinner().name
