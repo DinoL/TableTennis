@@ -13,6 +13,9 @@ class Player:
         self.streak = 0
         self.victories = 0
         self.games = collections.defaultdict(int)
+        self.score = 0
+        self.matches = 0
+        self.matchVictories = 0
 
 class PlayersQueue:
     """A class representing waiting players"""
