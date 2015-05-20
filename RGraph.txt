@@ -1,0 +1,98 @@
+doInstall <- FALSE  # Change to FALSE if you don't want packages installed.
+toInstall <- c("sna", "ggplot2", "Hmisc", "reshape2", "igraph", "plyr")
+if(doInstall){install.packages(toInstall, repos = "http://cran.r-project.org")}
+lapply(toInstall, library, character.only = TRUE)
+
+# Empty ggplot2 theme
+new_theme_empty <- theme_bw()
+new_theme_empty$line <- element_blank()
+new_theme_empty$rect <- element_blank()
+new_theme_empty$strip.text <- element_blank()
+new_theme_empty$axis.text <- element_blank()
+new_theme_empty$plot.title <- element_blank()
+new_theme_empty$axis.title <- element_blank()
+new_theme_empty$plot.margin <- structure(c(3, 3, 3, 3), unit = "lines",
+                                         valid.unit = 3L, class = "unit")
+
+library(igraph)
+adjacencyList <- tournament[c("V2", "V3")]
+adjacencyList[] = lapply(adjacencyList, as.character)
+players = unique(c(adjacencyList$V2, adjacencyList$V3))
+adjacencyList <- apply(adjacencyList, 1:2, function(x) which(players == x))
+adjacencyMatrix <- get.adjacency(graph.edgelist(as.matrix(adjacencyList), directed=TRUE))
+layoutCoordinates <- gplot(as.matrix(adjacencyMatrix))  # Get graph layout coordinates
+
+winners = tournament$V2
+getVictoriesCnt = function(name)  {
+     tb = count(winners)
+     cnt = tb$freq[tb$x == name]
+     if(!length(cnt))
+         cnt = 0
+     return(cnt)  }
+victories = unlist(lapply(players, getVictoriesCnt))
+maxVictories = max(victories)
+minVictories = min(victories)
+getIntensity = function(name) {
+     cnt = getVictoriesCnt(name)
+     if(maxVictories == minVictories) {
+         maxVictories = maxVictories + 1 }
+     return((cnt-minVictories)/(maxVictories-minVictories))
+ }
+getColor = function(name) {
+    i = getIntensity(name)
+    return(rgb(i, 1-i, 0))
+}
+getFontColor = function(name) {
+    if(getVictoriesCnt(name) == maxVictories)
+        return("blue")
+    return("black")
+}
+getFontSize = function(name) {
+    if(getVictoriesCnt(name) == maxVictories)
+        return(8)
+    return(5)
+}
+
+colors = unlist(lapply(players, getColor))
+fontColors = unlist(lapply(players, getFontColor))
+fontSizes = unlist(lapply(players, getFontSize))
+# Function to generate paths between each connected node
+edgeMaker <- function(whichRow, len = 100, curved = TRUE){
+    fromC <- layoutCoordinates[adjacencyList[whichRow, 1], ]  # Origin
+    toC <- layoutCoordinates[adjacencyList[whichRow, 2], ]  # Terminus
+    
+    # Add curve:
+    graphCenter <- colMeans(layoutCoordinates)  # Center of the overall graph
+    bezierMid <- c(fromC[1], toC[2])  # A midpoint, for bended edges
+    distance1 <- sum((graphCenter - bezierMid)^2)
+    if(distance1 < sum((graphCenter - c(toC[1], fromC[2]))^2)){
+        bezierMid <- c(toC[1], fromC[2])
+    }  # To select the best Bezier midpoint
+    bezierMid <- (fromC + toC + bezierMid) / 3  # Moderate the Bezier midpoint
+    if(curved == FALSE){bezierMid <- (fromC + toC) / 2}  # Remove the curve
+    
+    edge <- data.frame(bezier(c(fromC[1], bezierMid[1], toC[1]),  # Generate
+                              c(fromC[2], bezierMid[2], toC[2]),  # X & y
+                              evaluation = len))  # Bezier path coordinates
+    edge$Sequence <- 1:len  # For size and colour weighting in plot
+    edge$Group <- paste(adjacencyList[whichRow, 1:2], collapse = ">")
+    return(edge)
+}
+
+# Generate a (curved) edge path for each pair of connected nodes
+allEdges <- lapply(1:nrow(adjacencyList), edgeMaker, len = 500, curved = TRUE)
+allEdges <- do.call(rbind, allEdges)  # a fine-grained path ^, with bend ^
+
+zp1 <- ggplot(allEdges)  # Pretty simple plot code
+zp1 <- zp1 + geom_path(aes(x = x, y = y, group = Group,  # Edges with gradient
+                           colour = Sequence, size = -Sequence))  # and taper
+zp1 <- zp1 + geom_point(data = data.frame(layoutCoordinates),  # Add nodes
+                        aes(x = x, y = y), size = 10, pch = 21,
+                        colour = "black", fill = colors)  # Customize gradient v
+zp1 <- zp1 + geom_text(data = data.frame(layoutCoordinates), size=fontSizes, fontface=2, colour=fontColors, aes(x = x, y = y, label=players, vjust=-1.5))
+zp1 <- zp1 + scale_colour_gradient(low = "red", high = "forestgreen", guide = "none")
+zp1 <- zp1 + scale_size(range = c(1, 2), guide = "none")  # Customize taper
+zp1 <- zp1 + new_theme_empty  # Clean up plot
+#print(zp1)
+# Looks better when saved as a PNG:
+ggsave("Align 5th Table Tennis Tournament.png", zp1, h = 15, w = 15, type = "cairo-png")
