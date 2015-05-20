@@ -123,3 +123,15 @@ plt.axes().set_axisbelow(True)
 pylab.savefig('AverageScoresPlot.png', bbox_inches='tight', dpi=300)
 pylab.clf()
 
+sortedByWinrate = sorted(playersList, key=lambda x: float(x.matchVictories) / x.matches)
+winrates = [float(player.matchVictories)/player.matches*100.0 for player in sortedByWinrate]
+labelsByWinrate = [player.name for player in sortedByWinrate]
+
+pylab.barh(pos, winrates, align='center', color="lightblue")
+pylab.yticks(pos, labelsByWinrate)
+pylab.xlabel('Win rate, %')
+pylab.title('Win rate by player')
+plt.grid()
+plt.axes().set_axisbelow(True)
+pylab.savefig('WinratePlot.png', bbox_inches='tight', dpi=300)
+pylab.clf()
