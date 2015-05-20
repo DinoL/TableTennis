@@ -1,13 +1,11 @@
 from Tennis import Player, Match
 from Simulators import ManualSimulator
-import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import pylab
 
 statisticsPath = "Align5thTableTennisTournamentLogs.txt"
 playersList = []
-G = nx.Graph()
 edges = []
 
 def findPlayerByName(name):
@@ -125,7 +123,3 @@ plt.axes().set_axisbelow(True)
 pylab.savefig('AverageScoresPlot.png', bbox_inches='tight', dpi=300)
 pylab.clf()
 
-# G.add_edges_from(edges)
-# for graph in nx.connected_component_subgraphs(G):
-#     nx.draw_circular(graph,node_color='#ABCDEF',edge_color='#7070ff',width=4,with_labels=False)
-#     pylab.show()
