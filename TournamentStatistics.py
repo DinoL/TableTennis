@@ -91,7 +91,7 @@ labelsByScore = [player.name for player in sortedByScore]
 pylab.barh(pos, scores, align='center', color="lightblue")
 pylab.yticks(pos, labelsByScore)
 pylab.xlabel('Total score')
-pylab.title('Scores by players')
+pylab.title('Total score by player')
 plt.grid()
 plt.axes().set_axisbelow(True)
 pylab.savefig('TotalScorePlot.png', bbox_inches='tight', dpi=300)
@@ -103,7 +103,7 @@ labelsByVictories = [player.name for player in sortedByVictories]
 
 pylab.barh(pos, victories, align='center', color="lightblue")
 pylab.yticks(pos, labelsByVictories)
-pylab.xlabel('Victories')
+pylab.xlabel('Victories count')
 pylab.title('Victories by players')
 plt.grid()
 plt.axes().set_axisbelow(True)
@@ -116,8 +116,8 @@ labelsByAvgScores = [player.name for player in sortedByAvgScores]
 
 pylab.barh(pos, avgScores, align='center', color="lightblue")
 pylab.yticks(pos, labelsByAvgScores)
-pylab.xlabel('Average scores')
-pylab.title('Average scores by players')
+pylab.xlabel('Average score')
+pylab.title('Average score by player')
 plt.grid()
 plt.axes().set_axisbelow(True)
 pylab.savefig('AverageScoresPlot.png', bbox_inches='tight', dpi=300)
