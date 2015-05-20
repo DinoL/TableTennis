@@ -57,7 +57,6 @@
 11-7 11-7 11-7	Pavel Sokolov	Ilya Kurnosov
 11-1 11-3 11-1	Iohan Duhin	Anna Orlova
 11-3 11-9 11-9	Pavel Sokolov	Leonid Grechishnikov
-0-0	Irina Ivanova	Sergey Gerasimov
 11-9 11-8 11-6	Pavel Sokolov	Alexey Rakogon
 11-3 11-5 12-10	Anatoliy Boltunov	Pavel Pokotilov
 12-10 2-11 11-8 11-6	Boris Vasilevskiy	Iohan Duhin
